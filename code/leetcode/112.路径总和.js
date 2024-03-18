@@ -19,11 +19,11 @@
  * @return {boolean}
  */
 var hasPathSum = function (root, targetSum) {
-    // return hasPathSum1(root,targetSum)
-    return hasPathSum2(root, targetSum)
+    return hasPathSum1(root, targetSum)
+    // return hasPathSum2(root, targetSum)
 };
 
-// 递归
+// 递归， 前序遍历
 function hasPathSum1(root, targetSum) {
     if (!root) return false
     let ret = false

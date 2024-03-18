@@ -19,10 +19,10 @@
  * @return {number[][]}
  */
 var pathSum = function (root, targetSum) {
-    return fn1(root, targetSum)
+    return pathSum1(root, targetSum)
 };
 
-function fn1(root, targetSum) {
+function pathSum1(root, targetSum) {
     const ret = []
     const path = []
     let sum = 0
