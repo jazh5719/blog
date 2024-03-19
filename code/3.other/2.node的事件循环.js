@@ -23,4 +23,4 @@ new Promise(function (resolve) {
 }).then(function () {
     console.log('promise3')
 })
-console.log('script end') 
+console.log('script end')
