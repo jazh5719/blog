@@ -11,7 +11,8 @@
  */
 var climbStairs = function (n) {
     // return fn1(n)
-    return fn2(n)
+    // return fn2(n)
+    return climbStairs2(n)
 };
 
 // 回溯，会超时，但是能记录每个答案的步骤
@@ -55,6 +56,18 @@ function fn2(n) {
         dp[i] = dp[i - 1] + dp[i - 2]
     }
 
+    return dp[n]
+}
+
+const climbStairs2 = (n) => {
+    const dp = []
+    dp[0] = 0
+    dp[1] = 1
+    dp[2] = 2
+
+    for (let i = 3; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2]
+    }
     return dp[n]
 }
 // @lc code=end

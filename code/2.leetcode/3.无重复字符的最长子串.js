@@ -11,7 +11,8 @@
  */
 var lengthOfLongestSubstring = function (s) {
     // return fn1(s)
-    return fn2(s)
+    // return fn2(s)
+    return fn3(s)
 };
 
 // 双指针map，常规暴力解法
@@ -42,6 +43,26 @@ function fn2(s) {
         }
         ret = Math.max(ret, r - l)
         map.delete(s[l])
+    }
+    return ret
+}
+
+// 双指针优化2
+function fn3(s) {
+    let ret = 0
+    let l = 0
+    let r = 0
+    const map = new Map()
+    while (r >= l && r < s.length) {
+        if (!map.has(s[r])) {
+            map.set(s[r])
+            r++
+            ret = Math.max(ret, r - l)
+        } else {
+            ret = Math.max(ret, r - l)
+            map.delete(s[l])
+            l++
+        }
     }
     return ret
 }

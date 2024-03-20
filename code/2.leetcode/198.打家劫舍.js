@@ -11,8 +11,9 @@
  */
 var rob = function (nums) {
     // return fn1(nums)
-    return fn2(nums)
-
+    // return fn2(nums)
+    // return rob2(nums)
+    return rob3(nums)
 };
 
 
@@ -50,7 +51,32 @@ function fn2(nums) {
     return Math.max(dp[nums.length - 1][0], dp[nums.length - 1][1])
 }
 
+// 动态规划
+function rob2(nums) {
+    const dp = []
+    dp[0] = nums[0]
+    dp[1] = Math.max(nums[0], nums[1])
 
+    for (let i = 2; i < nums.length; i++) {
+        dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1])
+    }
+    return dp[nums.length - 1]
+}
+
+// 动态规划优化(减少内存)
+function rob3(nums) {
+    if (nums.length === 0) return 0
+    if (nums.length === 1) return nums[0]
+    let one = nums[0]
+    let two = Math.max(nums[0], nums[1])
+
+    for (let i = 2; i < nums.length; i++) {
+        const cTwo = two
+        two = Math.max(one + nums[i], cTwo)
+        one = cTwo
+    }
+    return two
+}
 
 
 // @lc code=end
