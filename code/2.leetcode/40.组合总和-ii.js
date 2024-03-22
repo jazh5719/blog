@@ -11,10 +11,10 @@
  * @return {number[][]}
  */
 var combinationSum2 = function (candidates, target) {
+    const list = candidates.sort((a, b) => a - b)
     const ret = []
     const path = []
     let sum = 0
-    const list = candidates.sort((a, b) => a - b)
 
     function fn(index) {
         if (sum > target) return
@@ -22,23 +22,25 @@ var combinationSum2 = function (candidates, target) {
             ret.push(path.slice())
             return
         }
-        const map = new Map()
+        // 使用map缓存同级已使用过的数据 || 用条件限制
+        // const map = new Map()
         for (let i = index; i < list.length; i++) {
-            if (map.has(candidates[i])) continue
+            const item = list[i]
+            if (i > index && item === list[i - 1]) continue
+            // if (map.has(item)) continue
+            // map.set(item)
 
-            sum += list[i]
-            path.push(list[i])
-            map.set(candidates[i])
+            path.push(item)
+            sum += item
 
             fn(i + 1)
 
-            sum -= list[i]
+            sum -= item
             path.pop()
         }
     }
 
     fn(0)
-
     return ret
 };
 // @lc code=end

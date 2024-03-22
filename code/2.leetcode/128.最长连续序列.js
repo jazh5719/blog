@@ -38,32 +38,31 @@ function fn1(nums) {
     return ret
 }
 
-// 去重遍历
+
 function fn2(nums) {
-    // if (nums.length === 0) return 0
-    // const set = new Set(nums)
-    // const map = new Map()
-    // let ret = 1
-    // const doneMap = new Map()
-    // for (let num of set) {
-    //     if (doneMap.has(num)) continue
-    //     let sum = 1
-    //     let left = num - 1
-    //     let right = num + 1
-    //     while (map.has(left)) {
-    //         doneMap.set(left)
-    //         left--
-    //         sum++
-    //     }
-    //     while (map.has(right)) {
-    //         doneMap.set(right)
-    //         right++
-    //         sum++
-    //     }
-    //     map.set(num)
-    //     ret = Math.max(ret, sum)
-    // }
-    // return ret
+    const map = new Map()
+    let ret = 0
+    for (let num of nums) {
+        map.set(num)
+    }
+
+    const checkMap = new Map()
+    for (let num of nums) {
+        if (checkMap.has(num)) continue
+
+        let addIndex = num
+        while (map.has(addIndex)) {
+            checkMap.set(addIndex)
+            addIndex++
+        }
+        let index = num - 1
+        while (map.has(index)) {
+            checkMap.set(index)
+            index--
+        }
+        ret = Math.max(ret, addIndex - index - 1)
+    }
+    return ret
 }
 // @lc code=end
 

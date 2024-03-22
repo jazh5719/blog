@@ -11,22 +11,24 @@
  * @return {number[][]}
  */
 var combinationSum = function (candidates, target) {
+    return combinationSum1(candidates, target)
+};
+
+// 回溯
+function combinationSum1(candidates, target) {
     const ret = []
     const path = []
     let sum = 0
-
     function fn(index) {
         if (sum > target) return
-
         if (sum === target) {
             ret.push(path.slice())
             return
         }
-
         for (let i = index; i < candidates.length; i++) {
             const item = candidates[i]
-            sum += item
             path.push(item)
+            sum += item
 
             fn(i)
 
@@ -34,9 +36,9 @@ var combinationSum = function (candidates, target) {
             path.pop()
         }
     }
-    fn(0)
 
+    fn(0)
     return ret
-};
+}
 // @lc code=end
 
