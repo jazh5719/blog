@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Father() {
+            this.class = 'father'
+        }
+
+        function Son() {
+            this.name = 'son'
+        }
+    </script>
+    <script>
+        /*
+            原型链继承：
+                1.原型链继承原型链继承的本质是把子类的prototype对象当成父类的一个实例
+                2.原型链继承的缺点：
+                    1.原型链继承的缺点是原型中包含的引用类型属性将被所有实例共享
+                    2.创建子类实例时，无法向父类构造函数传参
+        */
+
+        // Son.prototype = new Father()
+    </script>
+
+    <script>
+        /**
+         * 构造函数继承
+         *  1.构造函数继承本质在子类中通过call执行了父类的构造函数
+         *  2.缺点：
+         *      1.只能继承父类的实例属性和方法，不能继承原型属性和方法
+         * */
+        function Son1() {
+            Father.call(this)
+        }
+    </script>
+
+    <script>
+
+        /**
+         * 组合继承
+         *  1.组合继承是在构造函数的继承上添加了原型链继承原型对象
+         * 
+        */
+        function Son2() {
+            Father.call(this)
+        }
+        Son2.prototype.__proto__ = Father.prototype
+    </script>
+
+    <script>
+        /**
+         * 原型式继承的本质是用一个函数来实现的，传入一个obj,然后创建一个空的构造函数，并把这个构造函数的prototype指向传入的obj对象，
+         * 然后返回这个构造函数的实例。
+         * 他的本质是把父类的原型对象或者实例通过obj传入，然后子类当然就继承了父类的东⻄。
+         * 
+         * 缺点：本质还是原型链继承，所以和原型链的缺点一样
+                1.父类的引用对象会被子类的篡改的可能。
+                2.创建子类时没办法传入父类的参数，只能在创建子类构造函数时入参
+        */
+        function createObj(o) {
+            function F() { }
+            F.prototype = o
+            return new F()
+        }
+    </script>
+
+    <script>
+        // 组合寄生式
+
+        // Object.create, 的es5实现
+        function create(obj) {
+            function F() { }
+            F.prototype = obj
+            return new F()
+        }
+        // 这里的继承函数，让子类继承父类原型对象
+        function newExtends(Child, Father) {
+            // 这里用create，而不是直接把prototype === Father.prototype，本质是把Father.pototype进行一个浅复制，要不然直接改prototype回影响到父类的原型
+            let prototype = create(Father.prototype)
+            prototype.constructor = Child
+            Child.prototype = prototype
+        }
+        function Father(color) {
+            this.color = color
+        }
+        // 这里通过构造函数继承，让子类可以给父类传参
+        function Child(color) {
+            Father.call(this, color)
+        }
+    </script>
+</body>
+
+</html>

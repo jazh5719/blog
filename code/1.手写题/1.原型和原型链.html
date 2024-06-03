@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 原型对象：
+         * Q: 什么是原型对象？
+         * A: js的每个数据或者变量，都是一种js数据类型的实例。 每个实例本质都是由这个构造函数构造出来的。
+         *    每个构造函数都有对应的一个原型对象。也就是实例的 __proto__ 属性的指向或者构造函数 prototype 属性的指向。
+         * 
+         * Q: 为什么需要原型对象？
+         * A: 原型对象本质是为了节省空间减少内存。多个实例可以共享，一个原型对象内的属性方法
+         */
+
+        const a = 'string'  // 等同于 const a = new String('string') 使用 String 构造函数构造出来的实例
+        console.log(a.__proto__) // 指向 String构造函数的 prototype 对象
+        console.log(String.prototype)
+        console.log(a.__proto__ === String.prototype) // true
+
+
+        /***
+         * 原型链
+         * Q: 什么是原型链
+         * A: 简单的来说，每个实例都有 __proto__ 指向构造函数的原型对象， 这个原型对象本身也是一个构造函数的实例，
+         *    这样通过 __proto__ 链接起来的链就叫做原型链
+         */
+
+        function People() {
+            this.type = 'people'
+        }
+
+        const zhangsan = new People()
+
+        console.log(zhangsan.__proto__) // People.prototype
+        console.log(People.prototype.__proto__)   // Object.prototype
+
+        console.log(zhangsan.__proto__.__proto__ === Object.prototype)
+    </script>
+</body>
+
+</html>

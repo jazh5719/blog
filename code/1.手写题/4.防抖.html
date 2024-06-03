@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function fun(delay = 1000, fn) {
+            let timer = null
+            return function (...args) {
+                if (timer) {
+                    clearTimeout(timer)
+                    timer = null
+                }
+                timer = setTimeout(() => {
+                    fn.apply(this, args)
+                    clearTimeout(timer)
+                    timer = null
+                }, delay);
+            }
+        }
+
+        function doSome() {
+            console.log(this)
+        }
+
+        let data = {
+            doSome: fun(1000, doSome)
+        }
+        data.doSome()
+    </script>
+</body>
+
+</html>
