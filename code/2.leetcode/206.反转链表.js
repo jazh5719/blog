@@ -17,64 +17,44 @@
  * @return {ListNode}
  */
 var reverseList = function (head) {
-    // return fn1(head)
-    // return fn2(head)
-    return fn3(head)
+    // return reverseList1(head)
+    return reverseList2(head)
 };
 
-// 栈
-function fn1() {
-    const list = []
-    function search(node) {
-        if (!node) return
-
-        list.push(node.val)
-
-        search(node.next)
+function reverseList1(head) {
+    let prev = null
+    let node = head
+    while (node) {
+        const next = node.next
+        node.next = prev
+        prev = node
+        node = next
     }
-    search(head)
-
-    function set(node) {
-        if (!node) return
-        const newVal = list.pop()
-        node.val = newVal
-
-        set(node.next)
-    }
-
-    set(head)
-
-    return head
+    return prev
 }
 
-// 解链重新指向
-function fn2(head) {
-    if (!head) return head
+// var swapPairs = function (head) {
+//     if(!head || !head.next) return head
 
-    function change(pNode, cNode) {
-        pNode.next = null
-        if (pNode && cNode) {
-            change(cNode, cNode.next)
-            cNode.next = pNode
-        } else {
-            head = pNode
+//     const newHead = head.next
+//     head.next = swapPairs(newHead.next)
+//     newHead.next = head
+
+//     return newHead
+// };
+function reverseList2(head) {
+    let ret = null
+    function fn(node, prev) {
+        if (!node) return null
+        const next = node.next
+        if (!next) {
+            ret = node
         }
+        fn(next, node)
+        node.next = prev
     }
-
-    change(head, head.next)
-    return head
-}
-
-// 循环
-function fn3(head) {
-    let prevNode = null
-    while(head) {
-        const nextNode = head.next
-        head.next = prevNode
-        prevNode = head
-        head = nextNode
-    }
-    return prevNode
+    fn(head, null)
+    return ret
 }
 // @lc code=end
 

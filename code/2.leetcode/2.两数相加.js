@@ -17,59 +17,43 @@
  * @param {ListNode} l2
  * @return {ListNode}
  */
-// 转化法
-// var addTwoNumbers = function (l1, l2) {
-//     function getStr(node, res = '') {
-//         if (node.val !== undefined) {
-//             res = String(node.val) + res
-//         }
-//         if (node.next) {
-//             res = getStr(node.next, res)
-//         }
 
-//         return res
-//     }
-
-//     const s1 = getStr(l1)
-//     const s2 = getStr(l2)
-
-//     const numStr = String(BigInt(s1) + BigInt(s2))
-
-//     let index = numStr.length - 1
-//     function setList() {
-//         const current = numStr[index]
-//         const res = new ListNode()
-//         if (current) {
-//             res.val = current
-//         }
-
-//         if (numStr[index - 1]) {
-//             index--
-//             res.next = setList()
-//         }
-//         return res
-//     }
-//     return setList()
-// };
-
-
-// 链表直接加
 var addTwoNumbers = function (l1, l2) {
-
-    function fn(node1, node2, isAddOne = false) {
-        const currentList = new ListNode()
-        const newNode1 = node1 ? node1 : {}
-        const newNode2 = node2 ? node2 : {}
-        const current = (newNode1.val || 0) + (newNode2.val || 0) + (isAddOne ? 1 : 0)
-        const isThan9 = current > 9
-        currentList.val = isThan9 ? current - 10 : current
-
-        if (newNode1.next || newNode2.next || isThan9) {
-            currentList.next = fn(newNode1.next, newNode2.next, isThan9)
-        }
-        return currentList
-    }
-    return fn(l1, l2)
+    // return addTwoNumbers1(l1, l2)
+    return addTwoNumbers2(l1, l2)
 };
+
+// 链表直接加, 迭代
+function addTwoNumbers1(l1, l2) {
+    let head = null
+    let node = new ListNode()
+    let isAdd = false
+    while (l1 || l2 || isAdd) {
+        const val = (l1?.val || 0) + (l2?.val || 0) + (isAdd ? 1 : 0)
+        isAdd = val > 9
+        node.next = new ListNode(isAdd ? val - 10 : val)
+        if (!head) head = node.next
+        node = node.next
+        l1 = l1?.next || null
+        l2 = l2?.next || null
+    }
+
+
+    return head
+}
+
+// 递归
+function addTwoNumbers2(l1, l2) {
+
+    function fn(node1, node2, isAdd) {
+        if(!node1 && !node2 && !isAdd) return null
+        const val = (node1?.val || 0) + (node2?.val || 0) + (isAdd ? 1 : 0)
+        const node = new ListNode(val > 9 ? val - 10 : val)
+        node.next = fn(node1?.next, node2?.next, val > 9)
+        return node
+    }
+
+    return fn(l1, l2)
+}
 // @lc code=end
 
