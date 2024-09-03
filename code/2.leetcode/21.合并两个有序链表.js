@@ -18,36 +18,44 @@
  * @return {ListNode}
  */
 var mergeTwoLists = function (list1, list2) {
-    if (!list1 && !list2) return null
-    let newNode = new ListNode()
-    let node1 = list1
-    let node2 = list2
-
-    function fn(newNode, node1, node2) {
-        if (node1 && node2) {
-            if (node1.val <= node2.val) {
-                newNode.val = node1.val
-                node1 = node1.next
-            } else {
-                newNode.val = node2.val
-                node2 = node2.next
-            }
-        } else if (node1 && !node2) {
-            newNode.val = node1.val
-            node1 = node1.next
-        } else if (node2 && !node1) {
-            newNode.val = node2.val
-            node2 = node2.next
-        }
-        if (node1 || node2) {
-            const next = new ListNode()
-            newNode.next = next
-            fn(next, node1, node2)
-        }
-    }
-
-    fn(newNode, node1, node2)
-    return newNode
+    // return mergeTwoLists1(list1, list2)
+    return mergeTwoLists2(list1, list2)
 };
+
+// 递归
+function mergeTwoLists1(node1, node2) {
+    if (!node1 && !node2) return null
+    const val1 = node1 === null ? Infinity : node1.val
+    const val2 = node2 === null ? Infinity : node2.val
+    const node = new ListNode()
+
+    if (val1 <= val2) {
+        node.val = val1
+        node.next = mergeTwoLists1(node1?.next, node2)
+    } else {
+        node.val = val2
+        node.next = mergeTwoLists1(node1, node2?.next)
+    }
+    return node
+}
+
+// 遍历
+function mergeTwoLists2(list1, list2) {
+    let head = new ListNode(-1)
+    let node = head
+    while (list1 || list2) {
+        const val1 = list1 === null ? Infinity : list1.val
+        const val2 = list2 === null ? Infinity : list2.val
+        if (val1 <= val2) {
+            node.next = list1
+            list1 = list1?.next || null
+        } else {
+            node.next = list2
+            list2 = list2?.next || null
+        }
+        node = node.next
+    }
+    return head.next
+}
 // @lc code=end
 

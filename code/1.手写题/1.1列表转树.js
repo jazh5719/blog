@@ -68,26 +68,25 @@ function format2(list) {
 // 递归
 function format3(list) {
 
-    function searchParent(parentId, arr) {
 
+    function search(parentId, ret) {
         for (let item of list) {
-            const { parent, id } = item
-            if (parent === parentId) {
+            if (item.parent === parentId) {
                 item.children = []
-                searchParent(id, item.children)
-                arr.push(item)
+                search(item.id, item.children)
+                ret.push(item)
             }
         }
+
+        return ret
     }
-    const ret = []
-    searchParent(-1, ret)
-    return ret
+    return search(-1, [])
 }
 
 function format(list) {
     // const arr = format1(list)
-    // const arr = format2(list)
-    const arr = format3(list)
+    const arr = format2(list)
+    // const arr = format3(list)
     console.log(JSON.stringify(arr))
 
 }
